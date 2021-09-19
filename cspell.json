@@ -1,0 +1,14 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        "android",
+        "ios",
+        "www",
+        "**/source.ts"
+    ],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [],
+    "ignoreWords": [],
+    "import": []
+}
