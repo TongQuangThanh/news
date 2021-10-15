@@ -1,0 +1,19 @@
+{
+  "name": "news",
+  "version": "1.0.0",
+  "description": "news from rss",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "thnvn",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "rss-to-json": "^2.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}

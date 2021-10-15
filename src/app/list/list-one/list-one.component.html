@@ -1,0 +1,37 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">
+        <ion-img [src]="respond?.image ? respond?.image : source?.logo"></ion-img>
+      </ion-col>
+      <ion-col size="8" class="ion-no-padding">
+        <ion-card-header>
+          <ion-card-title>{{ source?.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ showTitle(respond?.description) }}
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item>
+    <ion-select name="group" [(ngModel)]="selectedGroups" multiple="true" placeholder="Chọn bảng tin">
+      <ion-select-option *ngFor="let group of allGroups" [value]="group">{{group.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item *ngFor="let item of respond?.items">
+    <ion-thumbnail slot="start">
+      <img [src]="getImageSource(item.description ? item.description : item.content)">
+    </ion-thumbnail>
+    <ion-label>
+      <h2>{{ item.title }}</h2>
+      <p>{{ getDescription(item.description ? item.description : item.content) }}</p>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <ion-note>{{ item.published | date }}</ion-note>
+        <ion-button (click)="goDetail(item)" expand="block" fill="clear" shape="round">
+          Chi tiết
+        </ion-button>
+      </div>
+    </ion-label>
+  </ion-item>
+</ion-content>

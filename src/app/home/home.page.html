@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Tin tức Việt Nam</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button (click)="goBack()" defaultHref></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="list">
+      <fa-icon [icon]="faList" class="fa-lg"></fa-icon>
+      <ion-label>Danh sách</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="group">
+      <fa-icon [icon]="faLayerGroup" class="fa-lg"></fa-icon>
+      <ion-label>Thể loại</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

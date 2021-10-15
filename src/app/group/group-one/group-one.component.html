@@ -1,0 +1,33 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <!-- <ion-col size="4">
+        <ion-img [src]="respond?.image ? respond?.image : source?.logo"></ion-img>
+      </ion-col>
+      <ion-col size="8" class="ion-no-padding">
+        <ion-card-header>
+          <ion-card-title>{{ source?.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{ showTitle(respond?.description) }}
+        </ion-card-content>
+      </ion-col> -->
+    </ion-row>
+  </ion-grid>
+  <ion-list *ngFor="let it of responds">
+    <ion-item *ngFor="let item of it.items" (click)="goDetail(it.code, item)">
+      <ion-thumbnail slot="start">
+        <img [src]="getImageSource(it.code, item.description ? item.description : item.content)">
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ item.title }}</h2>
+        <p>{{ getDescription(item.description ? item.description : item.content) }}</p>
+        <div style="display: flex">
+          <img [src]="getSource(it.code).logo" height="16px" width="16px">
+          <ion-note style="margin-left: 8px;">{{ it.name }}</ion-note>
+          <ion-note style="flex-grow: 1" class="ion-text-right">{{ item.published | date }}</ion-note>
+        </div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

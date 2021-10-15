@@ -1,0 +1,13 @@
+ion-menu-button {
+  color: var(--ion-color-primary);
+}
+
+::ng-deep .ios ion-tabs {
+  top: 44px!important;
+  height: calc(100vh - 44px)!important;
+}
+
+::ng-deep .md ion-tabs {
+  top: 56px!important;
+  height: calc(100vh - 56px)!important;
+}
