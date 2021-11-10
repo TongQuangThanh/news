@@ -1,7 +1,9 @@
+import { SharedService } from './../../shared/services/shared.service';
 import { sources } from '../../shared/source';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SourceService } from '../../shared/services/source.service';
+import { faCalendarAlt, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-list-one',
@@ -9,20 +11,72 @@ import { SourceService } from '../../shared/services/source.service';
   styleUrls: ['./list-one.component.css']
 })
 export class ListOneComponent implements OnInit {
+  customAlertOptions: any = {
+    header: 'Thể loại',
+    translucent: false
+  };
   source: typeof sources[0];
-  allGroups;
-  respond;
-  selectedGroups;
+  allGroups: any[];
+  respond: any;
+  selectedGroups: any[];
+  noContent = false;
+  faCalendarAlt = faCalendarAlt;
+  faLayerGroup = faLayerGroup;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private sourceService: SourceService) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private sourceService: SourceService,
+    private sharedService: SharedService) { }
 
   ngOnInit() {
     const code = this.activatedRoute.snapshot.paramMap.get('id');
     this.source = sources.find(source => source.code === code);
     this.allGroups = this.source.child.slice(1);
+    this.getParentSource(code);
+  }
+
+  getParentSource(code: string) {
+    this.sharedService.showLoading();
     this.sourceService.getParentSource('list', code).subscribe((res: any) => {
-      this.respond = res.data;
+      if (res.data) {
+        this.respond = res.data;
+        this.noContent = false;
+      } else {
+        this.noContent = true;
+      }
+      this.sharedService.hideLoading();
+    }, (error: any) => {
+      this.sharedService.hideLoading();
+      this.sharedService.alertError('home/list');
     });
+  }
+
+  getGroupName(code: number) {
+    return this.allGroups.find((group: any) => group.code === code).name;
+  }
+
+  setDefaultImg() {
+    this.respond.image = this.source.logo;
+  }
+
+  getSourceByGroup() {
+    const groupsCode = this.selectedGroups.map((gr: any) => gr.code);
+    if (groupsCode.length > 0) {
+      this.sharedService.showLoading();
+      this.sourceService.getMultiParentSource('list', this.source.code, groupsCode).subscribe((res: any) => {
+        if (res.data.length > 0) {
+          this.respond = res.data[0];
+          const restOfData = res.data.slice(1);
+          for (const item of restOfData) {
+            this.respond.items = this.respond.items.concat(item.items);
+          }
+        }
+        this.sharedService.hideLoading();
+      }, (error: any) => {
+        this.sharedService.hideLoading();
+        this.sharedService.alertError('home/list', false);
+      });
+    } else {
+      this.getParentSource(this.source.code);
+    }
   }
 
   goDetail(item: any) {
@@ -54,17 +108,9 @@ export class ListOneComponent implements OnInit {
 
   getDescription(description: any) {
     if (description.$text) {
-      return description.$text;
+      return description.$text.replace(/<[^>]+>/g, '');
     } else {
-      if (description.includes('</a>')) {
-        const start = description.indexOf('</a>');
-        description = description.substring(start + 4);
-      }
-      if (description.includes('<img src=')) {
-        const start = description.indexOf('/>');
-        description = description.substring(start + 2);
-      }
-      return description.replace(/(<\/br>|<\/span>)/g, '');
+      return description.replace(/<[^>]+>/g, '');
     }
   }
 }

@@ -1,20 +1,19 @@
 import { sources } from './../shared/source';
-import { Component, OnInit } from '@angular/core';
-import { SourceService } from '../shared/services/source.service';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.page.html',
   styleUrls: ['./list.page.scss'],
 })
-export class ListPage implements OnInit {
+export class ListPage implements OnInit, AfterViewInit {
   sources = sources;
-  constructor(private sourceService: SourceService) { }
+  isNarrow = false;
+  constructor() { }
 
-  ngOnInit() {
-    // this.sourceService.getData().subscribe((respond: any) => {
-    //   this.sources = respond.data.source;
-    //   this.storageService.set('sources', this.sources);
-    // });
+  ngOnInit() { }
+
+  ngAfterViewInit() {
+    this.isNarrow = document.body.clientWidth <= 400 ? true : false;
   }
 }

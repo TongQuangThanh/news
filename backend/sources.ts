@@ -51,33 +51,33 @@ const sources = [
       { code: 16, group: [24], name: 'Bạn đọc', link: 'https://tuoitre.vn/rss/ban-doc-lam-bao.rss' }
     ]
   },
-  {
-    code: 'thanhnien',
-    name: 'Thanh niên',
-    logo: './logo/thanhnien.png',
-    child: [
-      { code: 0, group: [0], name: 'Trang chủ', link: 'https://thanhnien.vn/rss/home.rss' },
-      { code: 1, group: [25], name: 'Video', link: 'https://thanhnien.vn/rss/video-316.rss' },
-      { code: 2, group: [9], name: 'Thời sự', link: 'https://thanhnien.vn/rss/thoi-su-4.rss' },
-      { code: 3, group: [4], name: 'Thế giới', link: 'https://thanhnien.vn/rss/the-gioi-66.rss' },
-      { code: 4, group: [3], name: 'Kinh doanh', link: 'https://thanhnien.vn/rss/tai-chinh-kinh-doanh-49.rss' },
-      { code: 5, group: [8], name: 'Game', link: 'https://thanhnien.vn/rss/game-315.rss' },
-      { code: 6, group: [14], name: 'Công nghệ', link: 'https://thanhnien.vn/rss/cong-nghe-12.rss' },
-      { code: 7, group: [12], name: 'Giới trẻ', link: 'https://thanhnien.vn/rss/gioi-tre-69.rss' },
-      { code: 8, group: [12], name: 'Đời sống', link: 'https://thanhnien.vn/rss/doi-song-17.rss' },
-      { code: 9, group: [6], name: 'Văn hóa', link: 'https://thanhnien.vn/rss/van-hoa-93.rss' },
-      { code: 10, group: [10], name: 'Giải trí', link: 'https://thanhnien.vn/rss/giai-tri-285.rss' },
-      { code: 11, group: [11], name: 'Thể thao', link: 'https://thanhnien.vn/rss/the-thao-318.rss' },
-      { code: 12, group: [2], name: 'Giáo dục', link: 'https://thanhnien.vn/rss/giao-duc-26.rss' },
-      { code: 13, group: [15], name: 'Xe', link: 'https://thanhnien.vn/rss/xe-317.rss' },
-      { code: 14, group: [7], name: 'Sức khỏe', link: 'https://thanhnien.vn/rss/suc-khoe-65.rss' },
-      { code: 15, group: [24], name: 'Tôi viết', link: 'https://thanhnien.vn/rss/toi-viet-89.rss' },
-      { code: 16, group: [17], name: 'Việc làm', link: 'https://thanhnien.vn/rss/viec-lam-558.rss' },
-      { code: 17, group: [18], name: 'Thời trang', link: 'https://thanhnien.vn/rss/thoi-trang-tre-319.rss' },
-      { code: 18, group: [24], name: 'Bạn đọc', link: 'https://thanhnien.vn/rss/ban-doc-190.rss' },
-      { code: 19, group: [23], name: 'Bạn cần biết', link: 'https://thanhnien.vn/rss/ban-can-biet-153.rss' },
-    ]
-  },
+  // {
+  //   code: 'thanhnien',
+  //   name: 'Thanh niên',
+  //   logo: './logo/thanhnien.png',
+  //   child: [
+  //     { code: 0, group: [0], name: 'Trang chủ', link: 'https://thanhnien.vn/rss/home.rss' },
+  //     { code: 1, group: [25], name: 'Video', link: 'https://thanhnien.vn/rss/video-316.rss' },
+  //     { code: 2, group: [9], name: 'Thời sự', link: 'https://thanhnien.vn/rss/thoi-su-4.rss' },
+  //     { code: 3, group: [4], name: 'Thế giới', link: 'https://thanhnien.vn/rss/the-gioi-66.rss' },
+  //     { code: 4, group: [3], name: 'Kinh doanh', link: 'https://thanhnien.vn/rss/tai-chinh-kinh-doanh-49.rss' },
+  //     { code: 5, group: [16], name: 'Game', link: 'https://thanhnien.vn/rss/game-315.rss' },
+  //     { code: 6, group: [14], name: 'Công nghệ', link: 'https://thanhnien.vn/rss/cong-nghe-12.rss' },
+  //     { code: 7, group: [12], name: 'Giới trẻ', link: 'https://thanhnien.vn/rss/gioi-tre-69.rss' },
+  //     { code: 8, group: [12], name: 'Đời sống', link: 'https://thanhnien.vn/rss/doi-song-17.rss' },
+  //     { code: 9, group: [6], name: 'Văn hóa', link: 'https://thanhnien.vn/rss/van-hoa-93.rss' },
+  //     { code: 10, group: [10], name: 'Giải trí', link: 'https://thanhnien.vn/rss/giai-tri-285.rss' },
+  //     { code: 11, group: [11], name: 'Thể thao', link: 'https://thanhnien.vn/rss/the-thao-318.rss' },
+  //     { code: 12, group: [2], name: 'Giáo dục', link: 'https://thanhnien.vn/rss/giao-duc-26.rss' },
+  //     { code: 13, group: [15], name: 'Xe', link: 'https://thanhnien.vn/rss/xe-317.rss' },
+  //     { code: 14, group: [7], name: 'Sức khỏe', link: 'https://thanhnien.vn/rss/suc-khoe-65.rss' },
+  //     { code: 15, group: [24], name: 'Tôi viết', link: 'https://thanhnien.vn/rss/toi-viet-89.rss' },
+  //     { code: 16, group: [17], name: 'Việc làm', link: 'https://thanhnien.vn/rss/viec-lam-558.rss' },
+  //     { code: 17, group: [18], name: 'Thời trang', link: 'https://thanhnien.vn/rss/thoi-trang-tre-319.rss' },
+  //     { code: 18, group: [24], name: 'Bạn đọc', link: 'https://thanhnien.vn/rss/ban-doc-190.rss' },
+  //     { code: 19, group: [23], name: 'Bạn cần biết', link: 'https://thanhnien.vn/rss/ban-can-biet-153.rss' },
+  //   ]
+  // },
   {
     code: 'vietnamnet',
     name: 'Vietnamnet',
@@ -183,34 +183,34 @@ const sources = [
       { code: 13, group: [11], name: 'Thể thao', link: 'https://soha.vn/the-thao.rss' }
     ]
   },
-  {
-    code: '24h',
-    name: '24H',
-    logo: './logo/24h.png',
-    child: [
-      { code: 0, group: [0], name: 'Trang chủ', link: 'https://www.24h.com.vn/upload/rss/trangchu24h.rss' },
-      { code: 1, group: [23], name: 'Tin tức trong ngày', link: 'https://www.24h.com.vn/upload/rss/tintuctrongngay.rss' },
-      { code: 2, group: [11], name: 'Bóng đá', link: 'https://www.24h.com.vn/upload/rss/bongda.rss' },
-      { code: 3, group: [20], name: 'An ninh - hình sự', link: 'https://www.24h.com.vn/upload/rss/anninhhinhsu.rss' },
-      { code: 4, group: [18], name: 'Thời trang', link: 'https://www.24h.com.vn/upload/rss/thoitrang.rss' },
-      { code: 5, group: [14], name: 'Hi-tech', link: 'https://www.24h.com.vn/upload/rss/thoitranghitech.rss' },
-      { code: 6, group: [3], name: 'Tài chính - bất động sản', link: 'https://www.24h.com.vn/upload/rss/taichinhbatdongsan.rss' },
-      { code: 7, group: [22], name: 'Ẩm thực', link: 'https://www.24h.com.vn/upload/rss/amthuc.rss' },
-      { code: 8, group: [6], name: 'Làm đẹp', link: 'https://www.24h.com.vn/upload/rss/lamdep.rss' },
-      { code: 9, group: [10], name: 'Phim', link: 'https://www.24h.com.vn/upload/rss/phim.rss' },
-      { code: 10, group: [2], name: 'Giáo dục', link: 'https://www.24h.com.vn/upload/rss/giaoducduhoc.rss' },
-      { code: 11, group: [12], name: 'Bạn trẻ - cuộc sống', link: 'https://www.24h.com.vn/upload/rss/bantrecuocsong.rss' },
-      { code: 12, group: [10], name: 'Ca nhạc - MTV', link: 'https://www.24h.com.vn/upload/rss/canhacmtv.rss' },
-      { code: 13, group: [11], name: 'Thể thao', link: 'https://www.24h.com.vn/upload/rss/thethao.rss' },
-      { code: 14, group: [13], name: 'Phi thường - kỳ quặc', link: 'https://www.24h.com.vn/upload/rss/phithuongkyquac.rss' },
-      { code: 15, group: [14], name: 'Công nghệ thông tin', link: 'https://www.24h.com.vn/upload/rss/congnghethongtin.rss' },
-      { code: 16, group: [15], name: 'Ô tô', link: 'https://www.24h.com.vn/upload/rss/oto.rss' },
-      { code: 17, group: [3], name: 'Thị trường - Tiêu dùng', link: 'https://www.24h.com.vn/upload/rss/thitruongtieudung.rss' },
-      { code: 18, group: [8], name: 'Du lịch', link: 'https://www.24h.com.vn/upload/rss/dulich.rss' },
-      { code: 19, group: [7], name: 'Sức khỏe đời sống', link: 'https://www.24h.com.vn/upload/rss/suckhoedoisong.rss' },
-      { code: 20, group: [13], name: 'Cười 24h', link: 'https://www.24h.com.vn/upload/rss/cuoi24h.rss' },
-    ]
-  },
+  // {
+  //   code: '24h',
+  //   name: '24H',
+  //   logo: './logo/24h.png',
+  //   child: [
+  //     { code: 0, group: [0], name: 'Trang chủ', link: 'https://www.24h.com.vn/upload/rss/trangchu24h.rss' },
+  //     { code: 1, group: [23], name: 'Tin tức trong ngày', link: 'https://www.24h.com.vn/upload/rss/tintuctrongngay.rss' },
+  //     { code: 2, group: [11], name: 'Bóng đá', link: 'https://www.24h.com.vn/upload/rss/bongda.rss' },
+  //     { code: 3, group: [20], name: 'An ninh - hình sự', link: 'https://www.24h.com.vn/upload/rss/anninhhinhsu.rss' },
+  //     { code: 4, group: [18], name: 'Thời trang', link: 'https://www.24h.com.vn/upload/rss/thoitrang.rss' },
+  //     { code: 5, group: [14], name: 'Hi-tech', link: 'https://www.24h.com.vn/upload/rss/thoitranghitech.rss' },
+  //     { code: 6, group: [3], name: 'Tài chính - bất động sản', link: 'https://www.24h.com.vn/upload/rss/taichinhbatdongsan.rss' },
+  //     { code: 7, group: [22], name: 'Ẩm thực', link: 'https://www.24h.com.vn/upload/rss/amthuc.rss' },
+  //     { code: 8, group: [6], name: 'Làm đẹp', link: 'https://www.24h.com.vn/upload/rss/lamdep.rss' },
+  //     { code: 9, group: [10], name: 'Phim', link: 'https://www.24h.com.vn/upload/rss/phim.rss' },
+  //     { code: 10, group: [2], name: 'Giáo dục', link: 'https://www.24h.com.vn/upload/rss/giaoducduhoc.rss' },
+  //     { code: 11, group: [12], name: 'Bạn trẻ - cuộc sống', link: 'https://www.24h.com.vn/upload/rss/bantrecuocsong.rss' },
+  //     { code: 12, group: [10], name: 'Ca nhạc - MTV', link: 'https://www.24h.com.vn/upload/rss/canhacmtv.rss' },
+  //     { code: 13, group: [11], name: 'Thể thao', link: 'https://www.24h.com.vn/upload/rss/thethao.rss' },
+  //     { code: 14, group: [13], name: 'Phi thường - kỳ quặc', link: 'https://www.24h.com.vn/upload/rss/phithuongkyquac.rss' },
+  //     { code: 15, group: [14], name: 'Công nghệ thông tin', link: 'https://www.24h.com.vn/upload/rss/congnghethongtin.rss' },
+  //     { code: 16, group: [15], name: 'Ô tô', link: 'https://www.24h.com.vn/upload/rss/oto.rss' },
+  //     { code: 17, group: [3], name: 'Thị trường - Tiêu dùng', link: 'https://www.24h.com.vn/upload/rss/thitruongtieudung.rss' },
+  //     { code: 18, group: [8], name: 'Du lịch', link: 'https://www.24h.com.vn/upload/rss/dulich.rss' },
+  //     { code: 19, group: [7], name: 'Sức khỏe đời sống', link: 'https://www.24h.com.vn/upload/rss/suckhoedoisong.rss' },
+  //     { code: 20, group: [13], name: 'Cười 24h', link: 'https://www.24h.com.vn/upload/rss/cuoi24h.rss' },
+  //   ]
+  // },
   {
     code: 'trainghiemso',
     name: 'Trải Nghiệm Số',
@@ -219,14 +219,14 @@ const sources = [
       { code: 0, group: [0, 14], name: 'Trang chủ', link: 'https://trainghiemso.vn/feed/' },
     ]
   },
-  {
-    code: 'techrum',
-    name: 'Techrum',
-    logo: './logo/techrum.png',
-    child: [
-      { code: 0, group: [0, 14], name: 'Trang chủ', link: 'http://www.techrum.vn/forums/-/index.rss' }
-    ]
-  },
+  // {
+  //   code: 'techrum',
+  //   name: 'Techrum',
+  //   logo: './logo/techrum.png',
+  //   child: [
+  //     { code: 0, group: [0, 14], name: 'Trang chủ', link: 'http://www.techrum.vn/forums/-/index.rss' }
+  //   ]
+  // },
   {
     code: 'ictnews',
     name: 'ICTNews',
@@ -266,14 +266,14 @@ const sources = [
       { code: 0, group: [0, 16], name: 'Trang chủ', link: 'http://gamek.vn/home.rss' }
     ]
   },
-  {
-    code: 'game4v',
-    name: 'Game4v',
-    logo: './logo/game4v.png',
-    child: [
-      { code: 0, group: [0, 16], name: 'Trang chủ', link: 'http://game4v.com/feed' },
-    ]
-  }
+  // {
+  //   code: 'game4v',
+  //   name: 'Game4v',
+  //   logo: './logo/game4v.png',
+  //   child: [
+  //     { code: 0, group: [0, 16], name: 'Trang chủ', link: 'http://game4v.com/feed' },
+  //   ]
+  // }
 ];
 
 const groups = [

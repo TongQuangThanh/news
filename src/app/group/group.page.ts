@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { SourceService } from '../shared/services/source.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { groups } from '../shared/source';
 
 @Component({
@@ -7,14 +6,14 @@ import { groups } from '../shared/source';
   templateUrl: './group.page.html',
   styleUrls: ['./group.page.scss'],
 })
-export class GroupPage implements OnInit {
+export class GroupPage implements OnInit, AfterViewInit {
   groups = groups;
-  constructor(private sourceService: SourceService) { }
+  isNarrow = false;
+  constructor() { }
 
-  ngOnInit() {
-    // this.sourceService.getData().subscribe((respond: any) => {
-    //   this.groups = respond.data.group;
-    // });
-    // this.storageService.get('groups').then(groups => this.groups = groups);
+  ngOnInit() { }
+
+  ngAfterViewInit() {
+    this.isNarrow = document.body.clientWidth <= 400 ? true : false;
   }
 }

@@ -1,21 +1,36 @@
-import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { faList, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
   faLayerGroup = faLayerGroup;
   faList = faList;
-  constructor(private location: Location, private router: Router, private activatedRoute: ActivatedRoute) { }
+  isRootPage = true;
+  isNarrow = false;
+  currentUrl: string;
 
-  ngOnInit() {
-    // this.isNavPage = this.router.url.includes('/home/list') || this.router.url.includes('/home/group');
+  constructor(private router: Router) {
+    router.events.subscribe((val: any) => {
+      this.isRootPage = val.url === '/home/list' || val.url === '/home/group';
+      this.currentUrl = val.url;
+    });
   }
+
+  ngOnInit() { }
+
+  ngAfterViewInit() {
+    this.isNarrow = document.body.clientWidth <= 400 ? true : false;
+  }
+
+  go(url: string) {
+    this.router.navigateByUrl(`home/${url}`);
+  }
+
   goBack() {
-    this.location.back();
+    this.router.navigateByUrl(this.currentUrl.substring(0, this.currentUrl.lastIndexOf('/')));
   }
 }

@@ -24,3 +24,26 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.error-alert {
+  .alert-head {
+    padding: 0px;
+  }
+  .alert-title, .alert-message {
+    background-color: var(--ion-color-danger-tint);
+    color: white;
+    padding: 1rem;
+  }
+  .alert-button-group {
+    justify-content: center;
+    padding: 0px;
+  }
+  .alert-button {
+    width: 100%;
+    color: var(--ion-color-danger-tint);
+    .alert-button {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

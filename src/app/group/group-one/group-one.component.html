@@ -1,7 +1,7 @@
 <ion-content>
-  <ion-grid>
+  <!-- <ion-grid>
     <ion-row>
-      <!-- <ion-col size="4">
+      <ion-col size="4">
         <ion-img [src]="respond?.image ? respond?.image : source?.logo"></ion-img>
       </ion-col>
       <ion-col size="8" class="ion-no-padding">
@@ -11,23 +11,49 @@
         <ion-card-content>
           {{ showTitle(respond?.description) }}
         </ion-card-content>
-      </ion-col> -->
+      </ion-col>
     </ion-row>
-  </ion-grid>
-  <ion-list *ngFor="let it of responds">
-    <ion-item *ngFor="let item of it.items" (click)="goDetail(it.code, item)">
-      <ion-thumbnail slot="start">
-        <img [src]="getImageSource(it.code, item.description ? item.description : item.content)">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ item.title }}</h2>
-        <p>{{ getDescription(item.description ? item.description : item.content) }}</p>
-        <div style="display: flex">
-          <img [src]="getSource(it.code).logo" height="16px" width="16px">
-          <ion-note style="margin-left: 8px;">{{ it.name }}</ion-note>
-          <ion-note style="flex-grow: 1" class="ion-text-right">{{ item.published | date }}</ion-note>
-        </div>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  </ion-grid> -->
+  <ng-container *ngIf="!noContent">
+    <ng-container *ngIf="responds; else loading">
+      <ion-list *ngFor="let it of responds" class="ion-no-padding">
+        <ion-item button detail *ngFor="let item of it.items" (click)="goDetail(it.code, item)">
+          <ion-thumbnail slot="start">
+            <img [src]="getImageSource(it.code, item.description ? item.description : item.content)">
+          </ion-thumbnail>
+          <ion-label>
+            <h2>{{ item.title | unescape:2 }}</h2>
+            <p>{{ getDescription(item.description ? item.description : item.content) | unescape:2 }}</p>
+            <ion-row>
+              <img [src]="getSource(it.code).logo" height="16px" width="16px">
+              <ion-note style="margin-left: 8px;">{{ it.name }}</ion-note>
+              <ion-note style="flex-grow: 1" class="ion-text-right">{{ item.published | date: 'dd/MM' }}</ion-note>
+            </ion-row>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ng-container>
+    <ng-template #loading>
+        <ion-item *ngFor="let it of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-thumbnail>
+          <ion-label>
+            <h2><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></h2>
+            <p><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></p>
+            <ion-row style="justify-content: space-between;">
+              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+            </ion-row>
+          </ion-label>
+        </ion-item>
+    </ng-template>
+  </ng-container>
+  <ng-template *ngIf="noContent">
+    <ion-row class="ion-padding-horizontal" style="height: 100%; align-items: center;">
+      <ion-note class="ion-text-center">Không có nội dung cho chuyên mục này, bạn có thể quay lại sau</ion-note>
+    </ion-row>
+  </ng-template>
+
+  
 </ion-content>

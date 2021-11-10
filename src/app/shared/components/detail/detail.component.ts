@@ -17,7 +17,6 @@ export class DetailComponent implements OnInit {
     this.item = this.router.getCurrentNavigation().extras.state.item;
     this.source = this.router.getCurrentNavigation().extras.state.source;
     this.list = this.router.getCurrentNavigation().extras.state.list;
-    console.log(this.item);
   }
 
   transformUrl(url: string) {

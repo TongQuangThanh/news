@@ -1,37 +1,75 @@
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="4">
-        <ion-img [src]="respond?.image ? respond?.image : source?.logo"></ion-img>
-      </ion-col>
-      <ion-col size="8" class="ion-no-padding">
-        <ion-card-header>
-          <ion-card-title>{{ source?.name }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          {{ showTitle(respond?.description) }}
-        </ion-card-content>
-      </ion-col>
+  <ng-container *ngIf="!noContent">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="4">
+          <ion-img [src]="respond?.image ? respond?.image : source?.logo" (error)="setDefaultImg()"></ion-img>
+        </ion-col>
+        <ion-col size="8" class="ion-no-padding">
+          <ion-card-header>
+            <ion-card-title>{{ source?.name }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>{{ showTitle(respond?.description) }}</ion-card-content>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-item *ngIf="allGroups.length > 0">
+      <ion-label>
+        Thể loại
+        <ion-badge style="vertical-align: middle; margin-left: 4px;" slot="end" class="ion-no-margin"
+          *ngIf="selectedGroups && selectedGroups.length > 0">
+          {{ selectedGroups.length }}
+        </ion-badge>
+      </ion-label>
+      <ion-select style="width: 100%;" name="group" [(ngModel)]="selectedGroups" multiple="true"
+        placeholder="Chọn bảng tin" (ionChange)="getSourceByGroup()" [interfaceOptions]="customAlertOptions">
+        <ion-select-option *ngFor="let group of allGroups" [value]="group">{{group.name}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ng-container *ngIf="respond; else loading">
+      <ion-item button detail *ngFor="let item of respond?.items" (click)="goDetail(item)">
+        <ion-thumbnail slot="start">
+          <img [src]="getImageSource(item.description ? item.description : item.content)">
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ item.title | unescape:2 }}</h2>
+          <p>{{ getDescription(item.description ? item.description : item.content) | unescape:2 }}</p>
+          <ion-row style="justify-content: space-between;">
+            <ion-col size="7" *ngIf="item.group" class="ion-no-padding">
+              <fa-icon [icon]="faLayerGroup" style="margin-right: 4px;"></fa-icon>
+              <ion-note>{{ getGroupName(item.group) }}</ion-note>
+            </ion-col>
+            <ion-col size="5" class="ion-no-padding {{ item.group ? 'ion-text-right' : '' }}">
+              <fa-icon [icon]="faCalendarAlt" style="margin-right: 4px;"></fa-icon>
+              <ion-note>{{ item.published | date: 'dd/MM' }}</ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-label>
+      </ion-item>
+    </ng-container>
+    <ng-template #loading>
+      <ion-item *ngFor="let it of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </h2>
+          <p>
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </p>
+          <ion-row style="justify-content: space-between;">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </ion-row>
+        </ion-label>
+      </ion-item>
+    </ng-template>
+  </ng-container>
+  <ng-template *ngIf="noContent">
+    <ion-row class="ion-padding-horizontal" style="height: 100%; align-items: center;">
+      <ion-note class="ion-text-center">Không có nội dung cho chuyên mục này, bạn có thể quay lại sau</ion-note>
     </ion-row>
-  </ion-grid>
-  <ion-item>
-    <ion-select name="group" [(ngModel)]="selectedGroups" multiple="true" placeholder="Chọn bảng tin">
-      <ion-select-option *ngFor="let group of allGroups" [value]="group">{{group.name}}</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-item *ngFor="let item of respond?.items">
-    <ion-thumbnail slot="start">
-      <img [src]="getImageSource(item.description ? item.description : item.content)">
-    </ion-thumbnail>
-    <ion-label>
-      <h2>{{ item.title }}</h2>
-      <p>{{ getDescription(item.description ? item.description : item.content) }}</p>
-      <div style="display: flex; align-items: center; justify-content: space-between;">
-        <ion-note>{{ item.published | date }}</ion-note>
-        <ion-button (click)="goDetail(item)" expand="block" fill="clear" shape="round">
-          Chi tiết
-        </ion-button>
-      </div>
-    </ion-label>
-  </ion-item>
+  </ng-template>
 </ion-content>

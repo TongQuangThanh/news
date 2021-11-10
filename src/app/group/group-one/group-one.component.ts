@@ -1,3 +1,4 @@
+import { SharedService } from './../../shared/services/shared.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SourceService } from '../../shared/services/source.service';
@@ -11,15 +12,27 @@ import { groups, sources } from '../../shared/source';
 export class GroupOneComponent implements OnInit {
   // group: typeof groups[0];
   // sources: typeof sources;
-  responds;
+  responds: any;
+  isNarrow = false;
+  noContent = false;
 
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private sourceService: SourceService) { }
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private sourceService: SourceService,
+    private sharedService: SharedService) { }
 
   ngOnInit() {
     const code = this.activatedRoute.snapshot.paramMap.get('id');
+    this.sharedService.showLoading();
     this.sourceService.getParentSource('group', code).subscribe((res: any) => {
-      this.responds = res.data;
-      // this.sources = sources.filter(source => source.code === code);
+      if (res.data.length > 0) {
+        this.responds = res.data;
+        this.noContent = false;
+      } else {
+        this.noContent = true;
+      }
+      this.sharedService.hideLoading();
+    }, async (error: any) => {
+      this.sharedService.hideLoading();
+      this.sharedService.alertError('home/group');
     });
   }
 
@@ -62,17 +75,9 @@ export class GroupOneComponent implements OnInit {
 
   getDescription(description: any) {
     if (description.$text) {
-      return description.$text;
+      return description.$text.replace(/<[^>]+>/g, '');
     } else {
-      if (description.includes('</a>')) {
-        const start = description.indexOf('</a>');
-        description = description.substring(start + 4);
-      }
-      if (description.includes('<img src=')) {
-        const start = description.indexOf('/>');
-        description = description.substring(start + 2);
-      }
-      return description.replace(/(<\/br>|<\/span>)/g, '');
+      return description.replace(/<[^>]+>/g, '');
     }
   }
 }

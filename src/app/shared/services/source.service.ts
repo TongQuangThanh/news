@@ -15,4 +15,8 @@ export class SourceService {
   getParentSource(path: string, code: string) {
     return this.http.get(`${this.apiUrl}/${path}/${code}`);
   }
+
+  getMultiParentSource(path: string, codeParent: string, codeSubParent: number[]) {
+    return this.http.get(`${this.apiUrl}/${path}/${codeParent}/${[...codeSubParent]}`);
+  }
 }

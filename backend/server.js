@@ -24,21 +24,47 @@ app.get("/list/:id/child/:code", (req, res, next) => {
   const parentSource = data.sources.find(source => source.code === id);
   const childSource = parentSource.child.find(childSource => childSource.code === code);
   const url = childSource.link;
-  parse(url).then(rss => res.status(200).json({ message: "Fetch successfully", data: rss }));
+  parse(url).then(
+    rss => res.status(200).json({ message: "Fetch successfully", data: rss }),
+    error => res.status(500).json({ message: "Server error", error })
+  );
 });
 
 app.get("/list/:code", (req, res, next) => {
   const code = req.params.code;
   const parentSource = data.sources.find(source => source.code === code);
   const url = parentSource.child[0].link;
-  parse(url).then(rss => res.status(200).json({ message: "Fetch successfully", data: rss }));
+  parse(url).then(
+    rss => res.status(200).json({ message: "Fetch successfully", data: rss }),
+    error => res.status(500).json({ message: "Server error", error }));
+});
+
+app.get("/list/:code/:groups", (req, res, next) => {
+  const code = req.params.code;
+  const groupsString = req.params.groups;
+  const parentSource = data.sources.find(source => source.code === code);
+  const urls = [];
+  const names = [];
+  const parentCodes = [];
+  const groups = [];
+  for (const child of parentSource.child) {
+    if (groupsString.includes(child.code) && !urls.includes(child.code)) {
+      groups.push(child.code);
+      urls.push(child.link);
+      names.push(parentSource.name);
+      parentCodes.push(parentSource.code);
+    }
+  }
+  parseAndSendMultiRequest(res, urls, names, parentCodes, groups);
 });
 
 app.get("/group/:id/child/:code", (req, res, next) => {
   const parentGroup = data.groups.find(group => group.code === req.params.id);
   const childGroup = parentGroup.child.find(childGroup => childGroup.code === req.params.code);
   const url = childGroup.link;
-  parse(url).then(rss => res.status(200).json({ message: "Fetch successfully", data: rss }));
+  parse(url).then(
+    rss => res.status(200).json({ message: "Fetch successfully", data: rss }),
+    error => res.status(500).json({ message: "Server error", error }));
 });
 
 app.get("/group/:code", (req, res, next) => {
@@ -46,20 +72,20 @@ app.get("/group/:code", (req, res, next) => {
   const id = data.groups.find(group => group.code == code).id;
   const urls = [];
   const names = [];
-  const codes = [];
+  const parentCodes = [];
   for (const source of data.sources) {
     for (const child of source.child) {
       if (child.group.includes(id) && !urls.includes(child.link)) {
         urls.push(child.link);
-        if (!names.includes(source.name)) {
-          names.push(source.name);
-        }
-        if (!codes.includes(source.code)) {
-          codes.push(source.code);
-        }
+        names.push(source.name);
+        parentCodes.push(source.code);
       }
     }
   }
+  parseAndSendMultiRequest(res, urls, names, parentCodes);
+});
+
+const parseAndSendMultiRequest = (res, urls, names, parentCodes, groups) => {
   const arrPromise = [];
   for (const url of urls) {
     arrPromise.push(parse(url));
@@ -67,11 +93,18 @@ app.get("/group/:code", (req, res, next) => {
   Promise.all(arrPromise).then((values) => {
     values.forEach((val, i) => {
       val['name'] = names[i];
-      val['code'] = codes[i];
-    })
-    res.status(200).json({ message: "Fetch successfully", data: values })
+      val['code'] = parentCodes[i];
+      if (groups) {
+        val.items.forEach(item => {
+          item['group'] = groups[i];
+        });
+      }
+    });
+    res.status(200).json({ message: "Fetch successfully", data: values });
+  }, error => {
+    res.status(500).json({ message: "Server error", data: error });
   });
-});
+}
 
 const normalizePort = val => {
   var port = parseInt(val, 10);

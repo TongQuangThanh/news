@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { HTMLEscapeUnescapeModule } from 'html-escape-unescape';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { GroupOneComponent } from '../group/group-one/group-one.component';
@@ -18,7 +18,8 @@ import { DetailComponent } from './../shared/components/detail/detail.component'
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HTMLEscapeUnescapeModule
   ],
   declarations: [HomePage, DetailComponent, ListOneComponent, GroupOneComponent]
 })

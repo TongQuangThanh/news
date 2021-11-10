@@ -4,8 +4,11 @@
       <ion-col sizeXs="6" sizeSm="4" sizeMd="3" *ngFor="let item of sources" [routerLink]="'/home/list/' + item.code">
         <ion-card>
           <ion-card-header>
-            <ion-img [src]="item.logo"></ion-img>
-            <ion-card-title>{{ item.name }}</ion-card-title>
+            <ion-img [src]="item.logo" style="margin-bottom: 4px;"></ion-img>
+            <ion-card-title *ngIf="!isNarrow else smallWidth">{{ item.name }}</ion-card-title>
+            <ng-template #smallWidth>
+              <ion-card-subtitle>{{ item.name }}</ion-card-subtitle>
+            </ng-template>
           </ion-card-header>
         </ion-card>
       </ion-col>
