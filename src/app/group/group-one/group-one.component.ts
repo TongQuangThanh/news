@@ -15,14 +15,15 @@ export class GroupOneComponent implements OnInit {
   responds: any;
   isNarrow = false;
   noContent = false;
+  code = '';
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private sourceService: SourceService,
     private sharedService: SharedService) { }
 
   ngOnInit() {
-    const code = this.activatedRoute.snapshot.paramMap.get('id');
+    this.code = this.activatedRoute.snapshot.paramMap.get('id');
     this.sharedService.showLoading();
-    this.sourceService.getParentSource('group', code).subscribe((res: any) => {
+    this.sourceService.getParentSource('group', this.code).subscribe((res: any) => {
       if (res.data.length > 0) {
         this.responds = res.data;
         this.noContent = false;
@@ -36,20 +37,13 @@ export class GroupOneComponent implements OnInit {
     });
   }
 
-  getGroups(code: string) {
-    return groups.find(group => group.code === code);
-  }
-
   getSource(code: string) {
     return sources.find(source => source.code === code);
   }
 
-  goDetail(code: string, item: any) {
+  goDetail(item: any) {
     this.router.navigateByUrl(
-      `home/group/${this.getGroups(code)}/detail`,
-      {
-        state: { item, list: this.responds, group: this.getGroups(code) }
-      });
+      `home/group/${this.code}/detail`, { state: { item } });
   }
 
   showTitle(title: string) {

@@ -17,7 +17,7 @@
   <ng-container *ngIf="!noContent">
     <ng-container *ngIf="responds; else loading">
       <ion-list *ngFor="let it of responds" class="ion-no-padding">
-        <ion-item button detail *ngFor="let item of it.items" (click)="goDetail(it.code, item)">
+        <ion-item button detail *ngFor="let item of it.items" (click)="goDetail(item)">
           <ion-thumbnail slot="start">
             <img [src]="getImageSource(it.code, item.description ? item.description : item.content)">
           </ion-thumbnail>
@@ -49,11 +49,9 @@
         </ion-item>
     </ng-template>
   </ng-container>
-  <ng-template *ngIf="noContent">
+  <ng-container *ngIf="noContent">
     <ion-row class="ion-padding-horizontal" style="height: 100%; align-items: center;">
       <ion-note class="ion-text-center">Không có nội dung cho chuyên mục này, bạn có thể quay lại sau</ion-note>
     </ion-row>
-  </ng-template>
-
-  
+  </ng-container>
 </ion-content>

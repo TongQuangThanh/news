@@ -9,14 +9,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class DetailComponent implements OnInit {
   item: any;
-  source: any;
-  list: any;
   constructor(private router: Router, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.item = this.router.getCurrentNavigation().extras.state.item;
-    this.source = this.router.getCurrentNavigation().extras.state.source;
-    this.list = this.router.getCurrentNavigation().extras.state.list;
   }
 
   transformUrl(url: string) {
