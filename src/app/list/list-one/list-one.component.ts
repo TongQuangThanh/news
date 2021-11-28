@@ -40,21 +40,23 @@ export class ListOneComponent implements OnInit {
   }
 
   getParentSource(code: string) {
-    this.sharedService.showLoading();
-    this.sourceService.getParentSource('list', code).subscribe(async (res: any) => {
-      if (res.data) {
-        res.data.items.forEach((it: any) => {
-          it.read = false;
-        });
-        this.respond = this.initRespond = await this.sharedService.checkIsReadOnList(res.data);
-        this.noContent = false;
-      } else {
-        this.noContent = true;
-      }
-      this.sharedService.hideLoading();
-    }, (error: any) => {
-      this.sharedService.hideLoading();
-      this.sharedService.alertError('home/list');
+    this.sharedService.showLoading().then(() => {
+      this.sourceService.getParentSource('list', code).subscribe(async (res: any) => {
+        if (res.data) {
+          res.data.items.forEach((it: any) => {
+            it.read = false;
+          });
+          this.respond = this.initRespond = await this.sharedService.checkIsReadOnList(res.data);
+          this.noContent = false;
+        } else {
+          this.noContent = true;
+        }
+        this.sharedService.hideLoading();
+      }, (error: any) => {
+        console.log(error);
+        this.sharedService.hideLoading();
+        this.sharedService.alertError('home/list');
+      });
     });
   }
 
@@ -69,19 +71,20 @@ export class ListOneComponent implements OnInit {
   getSourceByGroup() {
     const groupsCode = this.selectedGroups.map((gr: any) => gr.code);
     if (groupsCode.length > 0) {
-      this.sharedService.showLoading();
-      this.sourceService.getMultiParentSource('list', this.source.code, groupsCode).subscribe((res: any) => {
-        if (res.data.length > 0) {
-          this.respond = res.data[0];
-          const restOfData = res.data.slice(1);
-          for (const item of restOfData) {
-            this.respond.items = this.respond.items.concat(item.items);
+      this.sharedService.showLoading().then(() => {
+        this.sourceService.getMultiParentSource('list', this.source.code, groupsCode).subscribe((res: any) => {
+          if (res.data.length > 0) {
+            this.respond = res.data[0];
+            const restOfData = res.data.slice(1);
+            for (const item of restOfData) {
+              this.respond.items = this.respond.items.concat(item.items);
+            }
           }
-        }
-        this.sharedService.hideLoading();
-      }, (error: any) => {
-        this.sharedService.hideLoading();
-        this.sharedService.alertError('home/list', false);
+          this.sharedService.hideLoading();
+        }, (error: any) => {
+          this.sharedService.hideLoading();
+          this.sharedService.alertError('home/list', false);
+        });
       });
     } else {
       this.respond = this.initRespond;

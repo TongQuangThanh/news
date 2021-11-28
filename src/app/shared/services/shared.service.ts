@@ -100,11 +100,11 @@ export class SharedService {
     return await this.storage?.clear();
   }
 
-  showLoading() {
-    this.loadingController.create({
-      message: 'Please wait...',
-      // duration: 200000
-    }).then(ele => ele.present());
+  async showLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please Wait...',
+    });
+    return loading.present();
   }
 
   hideLoading() {

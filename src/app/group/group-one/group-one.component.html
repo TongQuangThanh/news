@@ -20,7 +20,7 @@
         <ion-row>
           <fa-icon [icon]="group.logo" [class]="isNarrow ? 'fa-2x' : 'fa-3x'"></fa-icon>
           <div class="ion-padding-start" style="display: flex; flex-direction: column; justify-content: center;">
-            <ion-card-subtitle *ngIf="!isNarrow else largeWidth">Chuyên mục:</ion-card-subtitle>
+            <ion-card-subtitle *ngIf="!isNarrow else largeWidth" class="ion-padding-bottom">Chuyên mục:</ion-card-subtitle>
             <ion-card-title *ngIf="!isNarrow else largeWidth">{{ group.name }}</ion-card-title>
             <ng-template #largeWidth>
               <ion-card-subtitle>{{ group.name }}</ion-card-subtitle>

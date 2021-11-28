@@ -39,23 +39,25 @@ export class GroupOneComponent implements OnInit {
   }
 
   getParentSource() {
-    this.sharedService.showLoading();
-    this.sourceService.getParentSource('group', this.code).subscribe(async (res: any) => {
-      if (res.data.length > 0) {
-        res.data.forEach((it: any) => {
-          it.items.forEach((item: any) => item.read = false);
-        });
-        this.responds = this.initResponds = await this.sharedService.checkIsReadOnGroup(res.data);
-        const srcOfGr = this.responds.map((it: any) => it.code);
-        this.allLists = sources.filter(source => srcOfGr.includes(source.code));
-        this.noContent = false;
-      } else {
-        this.noContent = true;
-      }
-      this.sharedService.hideLoading();
-    }, async (error: any) => {
-      this.sharedService.hideLoading();
-      this.sharedService.alertError('home/group');
+    this.sharedService.showLoading().then(() => {
+      this.sourceService.getParentSource('group', this.code).subscribe(async (res: any) => {
+        if (res.data.length > 0) {
+          res.data.forEach((it: any) => {
+            it.items.forEach((item: any) => item.read = false);
+          });
+          this.responds = this.initResponds = await this.sharedService.checkIsReadOnGroup(res.data);
+          const srcOfGr = this.responds.map((it: any) => it.code);
+          this.allLists = sources.filter(source => srcOfGr.includes(source.code));
+          this.noContent = false;
+        } else {
+          this.noContent = true;
+        }
+        this.sharedService.hideLoading();
+      }, async (error: any) => {
+        console.log(error);
+        this.sharedService.hideLoading();
+        this.sharedService.alertError('home/group');
+      });
     });
   }
 
