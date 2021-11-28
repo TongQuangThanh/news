@@ -3,11 +3,14 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content scrollY="true">
         <ion-list id="inbox-list">
-          <ion-list-header><h1>Tin tức Việt Nam</h1></ion-list-header>
-          <ion-note class="ion-padding-start">Chào bạn, chúc 1 ngày tốt lành</ion-note>
+          <ion-list-header>
+            <h1>Tin tức Việt Nam</h1>
+          </ion-list-header>
+          <ion-note class="ion-padding-start ion-padding-bottom">Chào bạn, chúc 1 ngày tốt lành</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" [lines]="i === appPages.length - 1 ? '' : 'none' "
+              detail="false" routerLinkActive="selected" [class]="i === 0 ? 'ion-margin-top' : ''">
               <fa-icon [icon]="p.icon"></fa-icon>
               <ion-label class="ion-padding-start">{{ p.title }}</ion-label>
             </ion-item>
@@ -15,7 +18,7 @@
         </ion-list>
 
         <ion-list id="labels-list">
-          <ion-item *ngFor="let action of action" lines="none" (click)="onClick(action .title)">
+          <ion-item *ngFor="let action of actions" lines="none" (click)="onClick(action.title)">
             <fa-icon [icon]="action.icon"></fa-icon>
             <ion-label class="ion-padding-start">{{ action.title }}</ion-label>
           </ion-item>

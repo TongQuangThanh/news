@@ -25,9 +25,14 @@
         placeholder="Chọn bảng tin" (ionChange)="getSourceByGroup()" [interfaceOptions]="customAlertOptions">
         <ion-select-option *ngFor="let group of allGroups" [value]="group">{{group.name}}</ion-select-option>
       </ion-select>
+      <ion-button (click)="reset()" fill="clear" class="ion-no-margin clear-icon"
+        [disabled]="!selectedGroups || (selectedGroups && selectedGroups.length === 0)">
+        <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+      </ion-button>
     </ion-item>
     <ng-container *ngIf="respond; else loading">
-      <ion-item button detail *ngFor="let item of respond?.items" (click)="goDetail(item)">
+      <ion-item button detail *ngFor="let item of respond?.items" (click)="goDetail(item)"
+        [color]="item.read ? 'light' : ''">
         <ion-thumbnail slot="start">
           <img [src]="getImageSource(item.description ? item.description : item.content)">
         </ion-thumbnail>

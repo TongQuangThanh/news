@@ -31,6 +31,10 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   goBack() {
-    this.router.navigateByUrl(this.currentUrl.substring(0, this.currentUrl.lastIndexOf('/')));
+    if (this.currentUrl) {
+      this.router.navigateByUrl(this.currentUrl.substring(0, this.currentUrl.lastIndexOf('/')));
+    } else {
+      this.router.navigateByUrl('home');
+    }
   }
 }

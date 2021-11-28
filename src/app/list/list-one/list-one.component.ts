@@ -1,7 +1,7 @@
 import { SharedService } from './../../shared/services/shared.service';
 import { sources } from '../../shared/source';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SourceService } from '../../shared/services/source.service';
 import { faCalendarAlt, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,6 +17,7 @@ export class ListOneComponent implements OnInit {
   };
   source: typeof sources[0];
   allGroups: any[];
+  initRespond: any;
   respond: any;
   selectedGroups: any[];
   noContent = false;
@@ -31,13 +32,21 @@ export class ListOneComponent implements OnInit {
     this.source = sources.find(source => source.code === code);
     this.allGroups = this.source.child.slice(1);
     this.getParentSource(code);
+    this.router.events.subscribe(async (val: any) => {
+      if (val instanceof NavigationEnd && val.url.endsWith(code) && this.respond) {
+        this.respond = this.initRespond = await this.sharedService.checkIsReadOnList(this.respond);
+      }
+    });
   }
 
   getParentSource(code: string) {
     this.sharedService.showLoading();
-    this.sourceService.getParentSource('list', code).subscribe((res: any) => {
+    this.sourceService.getParentSource('list', code).subscribe(async (res: any) => {
       if (res.data) {
-        this.respond = res.data;
+        res.data.items.forEach((it: any) => {
+          it.read = false;
+        });
+        this.respond = this.initRespond = await this.sharedService.checkIsReadOnList(res.data);
         this.noContent = false;
       } else {
         this.noContent = true;
@@ -75,11 +84,12 @@ export class ListOneComponent implements OnInit {
         this.sharedService.alertError('home/list', false);
       });
     } else {
-      this.getParentSource(this.source.code);
+      this.respond = this.initRespond;
     }
   }
 
   goDetail(item: any) {
+    this.sharedService.updateStorage(item.title);
     this.router.navigateByUrl(`home/list/${this.source.code}/detail`, { state: { item } });
   }
 
@@ -110,5 +120,10 @@ export class ListOneComponent implements OnInit {
     } else {
       return description.replace(/<[^>]+>/g, '');
     }
+  }
+
+  reset() {
+    this.selectedGroups = [];
+    this.respond = this.initRespond;
   }
 }

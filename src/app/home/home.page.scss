@@ -11,3 +11,7 @@ ion-menu-button {
   top: 56px!important;
   height: calc(100vh - 56px)!important;
 }
+
+::ng-deep ion-button.clear-icon::part(native) {
+  padding-right: 0;
+}

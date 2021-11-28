@@ -16,8 +16,38 @@
   </ion-grid> -->
   <ng-container *ngIf="!noContent">
     <ng-container *ngIf="responds; else loading">
+      <ion-grid class="ion-padding">
+        <ion-row>
+          <fa-icon [icon]="group.logo" [class]="isNarrow ? 'fa-2x' : 'fa-3x'"></fa-icon>
+          <div class="ion-padding-start" style="display: flex; flex-direction: column; justify-content: center;">
+            <ion-card-subtitle *ngIf="!isNarrow else largeWidth">Chuyên mục:</ion-card-subtitle>
+            <ion-card-title *ngIf="!isNarrow else largeWidth">{{ group.name }}</ion-card-title>
+            <ng-template #largeWidth>
+              <ion-card-subtitle>{{ group.name }}</ion-card-subtitle>
+            </ng-template>
+          </div>
+        </ion-row>
+      </ion-grid>
+      <ion-item *ngIf="allLists.length > 0">
+        <ion-label>
+          Thể loại
+          <ion-badge style="vertical-align: middle; margin-left: 4px;" slot="end" class="ion-no-margin"
+            *ngIf="selectedLists && selectedLists.length > 0">
+            {{ selectedLists.length }}
+          </ion-badge>
+        </ion-label>
+        <ion-select style="width: 100%;" name="group" [(ngModel)]="selectedLists" multiple="true"
+          placeholder="Chọn nguồn tin" (ionChange)="getSourceByList()" [interfaceOptions]="customAlertOptions">
+          <ion-select-option *ngFor="let List of allLists" [value]="List">{{List.name}}</ion-select-option>
+        </ion-select>
+        <ion-button (click)="reset()" fill="clear" class="ion-no-margin clear-icon"
+          [disabled]="!selectedLists || (selectedLists && selectedLists.length === 0)">
+          <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
       <ion-list *ngFor="let it of responds" class="ion-no-padding">
-        <ion-item button detail *ngFor="let item of it.items" (click)="goDetail(item)">
+        <ion-item button detail *ngFor="let item of it.items" (click)="goDetail(item)"
+          [color]="item.read ? 'light' : ''">
           <ion-thumbnail slot="start">
             <img [src]="getImageSource(it.code, item.description ? item.description : item.content)">
           </ion-thumbnail>
@@ -34,19 +64,23 @@
       </ion-list>
     </ng-container>
     <ng-template #loading>
-        <ion-item *ngFor="let it of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-          <ion-thumbnail slot="start">
-            <ion-skeleton-text animated></ion-skeleton-text>
-          </ion-thumbnail>
-          <ion-label>
-            <h2><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></h2>
-            <p><ion-skeleton-text animated style="width: 100%"></ion-skeleton-text></p>
-            <ion-row style="justify-content: space-between;">
-              <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
-              <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
-            </ion-row>
-          </ion-label>
-        </ion-item>
+      <ion-item *ngFor="let it of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+        <ion-thumbnail slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </h2>
+          <p>
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </p>
+          <ion-row style="justify-content: space-between;">
+            <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 30%"></ion-skeleton-text>
+          </ion-row>
+        </ion-label>
+      </ion-item>
     </ng-template>
   </ng-container>
   <ng-container *ngIf="noContent">

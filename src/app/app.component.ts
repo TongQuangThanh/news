@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     { title: 'Thể loại', url: '/home/group', icon: faLayerGroup },
     { title: 'About', url: '/about', icon: faInfoCircle },
   ];
-  public action = [{ title: 'Exit', icon: faSignOutAlt }];
+  public actions = [{ title: 'Exit', icon: faSignOutAlt }];
 
   constructor(private sharedService: SharedService) { }
 

@@ -1,6 +1,6 @@
 import { SharedService } from './../../shared/services/shared.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { SourceService } from '../../shared/services/source.service';
 import { groups, sources } from '../../shared/source';
 
@@ -10,8 +10,15 @@ import { groups, sources } from '../../shared/source';
   styleUrls: ['./group-one.component.css']
 })
 export class GroupOneComponent implements OnInit {
-  // group: typeof groups[0];
+  group: typeof groups[0];
   // sources: typeof sources;
+  customAlertOptions: any = {
+    header: 'Nguồn',
+    translucent: false
+  };
+  allLists: any[];
+  selectedLists: any[];
+  initResponds: any;
   responds: any;
   isNarrow = false;
   noContent = false;
@@ -22,10 +29,25 @@ export class GroupOneComponent implements OnInit {
 
   ngOnInit() {
     this.code = this.activatedRoute.snapshot.paramMap.get('id');
+    this.group = groups.find(group => group.code === this.code);
+    this.getParentSource();
+    this.router.events.subscribe(async (val: any) => {
+      if (val instanceof NavigationEnd && val.url.endsWith(this.code) && this.responds) {
+        this.responds = await this.sharedService.checkIsReadOnGroup(this.responds);
+      }
+    });
+  }
+
+  getParentSource() {
     this.sharedService.showLoading();
-    this.sourceService.getParentSource('group', this.code).subscribe((res: any) => {
+    this.sourceService.getParentSource('group', this.code).subscribe(async (res: any) => {
       if (res.data.length > 0) {
-        this.responds = res.data;
+        res.data.forEach((it: any) => {
+          it.items.forEach((item: any) => item.read = false);
+        });
+        this.responds = this.initResponds = await this.sharedService.checkIsReadOnGroup(res.data);
+        const srcOfGr = this.responds.map((it: any) => it.code);
+        this.allLists = sources.filter(source => srcOfGr.includes(source.code));
         this.noContent = false;
       } else {
         this.noContent = true;
@@ -42,6 +64,7 @@ export class GroupOneComponent implements OnInit {
   }
 
   goDetail(item: any) {
+    this.sharedService.updateStorage(item.title);
     this.router.navigateByUrl(
       `home/group/${this.code}/detail`, { state: { item } });
   }
@@ -73,5 +96,19 @@ export class GroupOneComponent implements OnInit {
     } else {
       return description.replace(/<[^>]+>/g, '');
     }
+  }
+
+  getSourceByList() {
+    const listsCode = this.selectedLists.map((it: any) => it.code);
+    if (listsCode.length > 0) {
+      this.responds = this.initResponds.filter((it: any) => listsCode.includes(it.code));
+    } else {
+      this.responds = this.initResponds;
+    }
+  }
+
+  reset() {
+    this.selectedLists = [];
+    this.responds = this.initResponds;
   }
 }
