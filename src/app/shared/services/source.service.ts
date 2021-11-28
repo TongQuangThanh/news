@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SourceService {
-  apiUrl = 'http://localhost:2000';
+  apiUrl = 'https://thnvn-news.herokuapp.com';
   constructor(private http: HttpClient) { }
 
   getChildSource(path: string, parentCode: string, childCode: string) {

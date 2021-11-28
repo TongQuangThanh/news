@@ -80,9 +80,7 @@ export class ListOneComponent implements OnInit {
   }
 
   goDetail(item: any) {
-    this.router.navigateByUrl(`home/list/${this.source.code}/detail`, {
-      state: { item, list: this.respond.items, source: this.source }
-    });
+    this.router.navigateByUrl(`home/list/${this.source.code}/detail`, { state: { item } });
   }
 
   showTitle(title: string) {

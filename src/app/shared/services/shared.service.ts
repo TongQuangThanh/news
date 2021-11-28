@@ -1,11 +1,14 @@
 import { LoadingController, AlertController } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
+  public exit = new Subject<string>(); // Observable string sources
+  exit$ = this.exit.asObservable(); // Observable string streams
   loading = this.loadingController.create({
     message: 'Please wait...',
     duration: 20000
@@ -35,5 +38,9 @@ export class SharedService {
       }]
     });
     await alert.present();
+  }
+
+  exitApp() {
+    this.exit.next();
   }
 }

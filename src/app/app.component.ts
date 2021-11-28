@@ -1,4 +1,6 @@
+import { SharedService } from './shared/services/shared.service';
 import { Component, OnInit } from '@angular/core';
+import { faList, faLayerGroup, faInfoCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -6,18 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  // public appPages = [
-  //   { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-  //   { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-  //   { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-  //   { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-  //   { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-  //   { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
-  // ];
-  public appPages;
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() { }
+  public appPages = [
+    { title: 'Danh sách', url: '/home/list', icon: faList },
+    { title: 'Thể loại', url: '/home/group', icon: faLayerGroup },
+    { title: 'About', url: '/about', icon: faInfoCircle },
+  ];
+  public action = [{ title: 'Exit', icon: faSignOutAlt }];
 
-  async ngOnInit() {
+  constructor(private sharedService: SharedService) { }
+
+  ngOnInit() {
+  }
+
+  onClick(action: string) {
+    if (action === 'Exit') {
+      this.sharedService.exitApp();
+    }
   }
 }
