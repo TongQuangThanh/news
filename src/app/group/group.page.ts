@@ -1,5 +1,6 @@
+import { SourceService } from './../shared/services/source.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { groups } from '../shared/source';
+import { Group, RespondGroup } from '../shared/model/model';
 
 @Component({
   selector: 'app-group',
@@ -7,11 +8,13 @@ import { groups } from '../shared/source';
   styleUrls: ['./group.page.scss'],
 })
 export class GroupPage implements OnInit, AfterViewInit {
-  groups = groups;
+  groups: Group[];
   isNarrow = false;
-  constructor() { }
+  constructor(private sourceService: SourceService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.sourceService.getCategory('group').subscribe((res: RespondGroup) => this.groups = res.data);
+  }
 
   ngAfterViewInit() {
     this.isNarrow = document.body.clientWidth <= 400 ? true : false;

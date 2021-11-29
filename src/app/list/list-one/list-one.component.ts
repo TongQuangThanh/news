@@ -1,5 +1,5 @@
 import { SharedService } from './../../shared/services/shared.service';
-import { sources } from '../../shared/source';
+import { Child, RespondData, RespondMulti, RespondSource, Source } from 'src/app/shared/model/model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { SourceService } from '../../shared/services/source.service';
@@ -15,11 +15,21 @@ export class ListOneComponent implements OnInit {
     header: 'Thể loại',
     translucent: false
   };
-  source: typeof sources[0];
-  allGroups: any[];
-  initRespond: any;
-  respond: any;
-  selectedGroups: any[];
+  source: Source;
+  allGroups: Child[];
+  initRespond: RespondData;
+  respond: RespondData;
+  // = {
+  //   category: [],
+  //   code: '',
+  //   description: '',
+  //   image: '',
+  //   items: [],
+  //   link: '',
+  //   name: '',
+  //   title: ''
+  // };
+  selectedGroups: Child[] = [];
   noContent = false;
   faCalendarAlt = faCalendarAlt;
   faLayerGroup = faLayerGroup;
@@ -29,13 +39,15 @@ export class ListOneComponent implements OnInit {
 
   ngOnInit() {
     const code = this.activatedRoute.snapshot.paramMap.get('id');
-    this.source = sources.find(source => source.code === code);
-    this.allGroups = this.source.child.slice(1);
     this.getParentSource(code);
-    this.router.events.subscribe(async (val: any) => {
-      if (val instanceof NavigationEnd && val.url.endsWith(code) && this.respond) {
-        this.respond = this.initRespond = await this.sharedService.checkIsReadOnList(this.respond);
-      }
+    this.sourceService.getCategory('list').subscribe((res: RespondSource) => {
+      this.source = res.data.find(source => source.code === code);
+      this.allGroups = this.source.child.slice(1);
+      this.router.events.subscribe(async (val: any) => {
+        if (val instanceof NavigationEnd && val.url.endsWith(code) && this.respond) {
+          this.respond = this.initRespond = await this.sharedService.checkIsReadOnList(this.respond);
+        }
+      });
     });
   }
 
@@ -69,10 +81,10 @@ export class ListOneComponent implements OnInit {
   }
 
   getSourceByGroup() {
-    const groupsCode = this.selectedGroups.map((gr: any) => gr.code);
+    const groupsCode = this.selectedGroups.map((gr: Child) => gr.code);
     if (groupsCode.length > 0) {
       this.sharedService.showLoading().then(() => {
-        this.sourceService.getMultiParentSource('list', this.source.code, groupsCode).subscribe((res: any) => {
+        this.sourceService.getMultiParentSource('list', this.source.code, groupsCode).subscribe((res: RespondMulti) => {
           if (res.data.length > 0) {
             this.respond = res.data[0];
             const restOfData = res.data.slice(1);

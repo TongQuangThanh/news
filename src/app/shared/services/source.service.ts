@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { RespondData, RespondGroup, RespondMulti, RespondSource } from '../model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +11,15 @@ export class SourceService {
   apiUrl = 'http://localhost:3000';
   constructor(private http: HttpClient) { }
 
-  getChildSource(path: string, parentCode: string, childCode: string) {
-    return this.http.get(`${this.apiUrl}/${path}/${parentCode}/child/${childCode}`);
+  getCategory(path: string): Observable<RespondSource | RespondGroup> {
+    return this.http.get<RespondSource | RespondGroup>(`${this.apiUrl}/${path}`);
   }
 
-  getParentSource(path: string, code: string) {
-    return this.http.get(`${this.apiUrl}/${path}/${code}`);
+  getParentSource(path: string, code: string): Observable<RespondData> {
+    return this.http.get<RespondData>(`${this.apiUrl}/${path}/${code}`);
   }
 
-  getMultiParentSource(path: string, codeParent: string, codeSubParent: number[]) {
-    return this.http.get(`${this.apiUrl}/${path}/${codeParent}/${[...codeSubParent]}`);
+  getMultiParentSource(path: string, codeParent: string, codeSubParent: number[]): Observable<RespondMulti> {
+    return this.http.get<RespondMulti>(`${this.apiUrl}/${path}/${codeParent}/${[...codeSubParent]}`);
   }
 }

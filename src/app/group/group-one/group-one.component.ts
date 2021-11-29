@@ -2,7 +2,7 @@ import { SharedService } from './../../shared/services/shared.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { SourceService } from '../../shared/services/source.service';
-import { groups, sources } from '../../shared/source';
+import { Group, RespondGroup, RespondSource, Source } from 'src/app/shared/model/model';
 
 @Component({
   selector: 'app-group-one',
@@ -10,8 +10,8 @@ import { groups, sources } from '../../shared/source';
   styleUrls: ['./group-one.component.css']
 })
 export class GroupOneComponent implements OnInit {
-  group: typeof groups[0];
-  // sources: typeof sources;
+  group: Group;
+  sources: Source[];
   customAlertOptions: any = {
     header: 'Nguồn',
     translucent: false
@@ -29,7 +29,11 @@ export class GroupOneComponent implements OnInit {
 
   ngOnInit() {
     this.code = this.activatedRoute.snapshot.paramMap.get('id');
-    this.group = groups.find(group => group.code === this.code);
+    // this.group = groups.find(group => group.code === this.code);
+    this.sourceService.getCategory('list').subscribe((res: RespondSource) => this.sources = res.data);
+    this.sourceService.getCategory('group').subscribe(
+      (res: RespondGroup) => this.group = res.data.find((group: Group) => group.code === this.code)
+      );
     this.getParentSource();
     this.router.events.subscribe(async (val: any) => {
       if (val instanceof NavigationEnd && val.url.endsWith(this.code) && this.responds) {
@@ -47,7 +51,7 @@ export class GroupOneComponent implements OnInit {
           });
           this.responds = this.initResponds = await this.sharedService.checkIsReadOnGroup(res.data);
           const srcOfGr = this.responds.map((it: any) => it.code);
-          this.allLists = sources.filter(source => srcOfGr.includes(source.code));
+          this.allLists = this.sources.filter(source => srcOfGr.includes(source.code));
           this.noContent = false;
         } else {
           this.noContent = true;
@@ -62,7 +66,7 @@ export class GroupOneComponent implements OnInit {
   }
 
   getSource(code: string) {
-    return sources.find(source => source.code === code);
+    return this.sources.find(source => source.code === code);
   }
 
   goDetail(item: any) {
