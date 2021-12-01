@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Tin tức Việt Nam</string>
+    <string name="title_activity_main">Tin tức Việt Nam</string>
+    <string name="package_name">com.thnvn.news</string>
+    <string name="custom_url_scheme">com.thnvn.news</string>
+</resources>

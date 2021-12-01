@@ -82,6 +82,7 @@ export class SharedService {
       }
     );
   }
+
   public async storeData(oldData: { items: any[]; time: number }, newData: any[]) {
     let data = oldData;
     if (!this.checkValidStoredData(data)) {

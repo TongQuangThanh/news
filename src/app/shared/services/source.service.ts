@@ -7,8 +7,8 @@ import { RespondData, RespondGroup, RespondMulti, RespondSource } from '../model
   providedIn: 'root'
 })
 export class SourceService {
-  // apiUrl = 'https://thnvn-news.herokuapp.com';
-  apiUrl = 'http://localhost:3000';
+  apiUrl = 'https://thnvn-news.herokuapp.com';
+  // apiUrl = 'http://localhost:3000';
   constructor(private http: HttpClient) { }
 
   getCategory(path: string): Observable<RespondSource | RespondGroup> {
